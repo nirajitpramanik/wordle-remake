@@ -21,7 +21,7 @@ PROJECT_DIR = os.path.join(BASE_DIR, "wordle")
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '8_bnei349x*^vw8+pgqzk772hxds_o7l9me@d$hoyokqj$o#*w'
+SECRET_KEY = ''
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
