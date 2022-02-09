@@ -46,6 +46,7 @@ def check_word(word):
 
     real = l["real"]
     if word.lower() == real:
+        #When the word has been guessed
         d = {}
         for letter in word.lower():
             d[letter] = "correct"
@@ -60,9 +61,11 @@ def check_word(word):
         return "success"
 
     elif word.lower() in l["words"]:
+        #If the word already has been guessed before
         return "exists"
 
     else:
+        #If the word hasn't been guessed and is a legitimate word
         real_list = list(real)
         d = {}
         for letter in word.lower():
