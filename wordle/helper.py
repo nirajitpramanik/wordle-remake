@@ -6,11 +6,14 @@ def check_word(word):
     try:
         with open("wordle/words.json", "r") as fp:
             l = json.load(fp)
+
+        with open("wordle/permitted_words.json", "r") as fp:
+            word_list = json.load(fp)
             
         last_word = l["words"][-1]
         if (list(last_word.values()).count("correct")) == 5 or l["count"] >= 6:
             l["words"] = []
-            l["real"] = random.choice(["frame", "strap", "cigar", "prank"])
+            l["real"] = random.choice(word_list)
             l["count"] = 0
             l["success"] = False
 
@@ -22,7 +25,7 @@ def check_word(word):
             l = json.load(fp)
 
         l["words"] = []
-        l["real"] = random.choice(["frame", "strap", "cigar", "prank"])
+        l["real"] = random.choice(word_list)
 
         with open("wordle/words.json", "w") as f:
             json.dump(l, f, indent = 2)
@@ -44,6 +47,16 @@ def check_word(word):
     with open("wordle/words.json", "r") as fp:
         l = json.load(fp)
 
+    guessed_words = []
+
+    for i in l["words"]:
+        s = ""
+        for letter in i:
+            s += letter
+        guessed_words.append(s)
+
+    print(guessed_words)
+
     real = l["real"]
     if word.lower() == real:
         #When the word has been guessed
@@ -60,7 +73,7 @@ def check_word(word):
 
         return "success"
 
-    elif word.lower() in l["words"]:
+    elif word.lower() in guessed_words:
         #If the word already has been guessed before
         return "exists"
 
