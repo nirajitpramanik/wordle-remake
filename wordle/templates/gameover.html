@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+
+{% block title %}WORDLE{% endblock %}
+{% load static %}
+{% block content %}
+
+<br><br><br>
+<center>
+    <div class = "container">
+        <h1>WORDLE</h1>
+        <hr style="height:2px;border-width:0;color:gray;background-color:gray">
+    </div>
+</center>
+
+<div class="row">
+    
+    <div class="col-lg-8 mx-auto">
+        {% if success %}
+        <div class="alert alert-success">
+            You have guessed the word!
+        </div>
+
+        {% else %}
+        <div class="alert alert-danger">
+            You have failed to guess the word!
+        </div>
+        {% endif %}
+
+        
+        {% if details %}
+            <h3>Your guessed words:</h3>
+            {% for i in details %}
+                <span>- </span>
+                {% for w, c in i.items %}
+                    {% if c == "correct" %}
+                        <span style="color:green">{{ w }}</span>
+                    {% elif c == "half" %}
+                        <span style="color:yellow">{{ w }}</span>
+                    {% else %}
+                        <span style="color:red">{{ w }}</span>
+                    {% endif %}
+                {% endfor %}
+                <br>
+            {% endfor %}
+        {% endif %}
+
+        {% if success %}
+            <br><br>
+            <h3>Game over!</h3>
+
+            <!--
+            <center>
+                <a href='/game'>
+                    <button type = "button" class="btn btn-outline-primary">
+                        Restart
+                    </button>
+                </a>
+            </center>
+            -->
+
+        {% else %} 
+            <br><br>
+            <h3>The real word was: <b>{{ real }}</b></h3>
+
+        {% endif %}
+
+            <br><br>
+        </div>
+
+            
+
+            <!--
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+
+            {% for error in field.errors %}
+                <p class = 'help-block text-danger'>{{ error }}</p>
+            {% endfor %}
+        -->
+        </form>
+        <hr style="color: white;">
+    </div>
+</div>
+
+
+
+{% endblock %}

@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+
+{% block title %}WORDLE{% endblock %}
+{% load static %}
+{% block content %}
+
+<br><br><br>
+<center>
+    <div class = "container">
+        <h1>WORDLE</h1>
+        <hr style="height:2px;border-width:0;color:gray;background-color:gray">
+    </div>
+</center>
+<div class="row">
+    
+    <div class="col-lg-8 mx-auto">
+        {% if success %}
+        <div class="alert alert-success" role="alert">
+            You have guessed the word!
+        </div>
+        {% endif %}
+
+        <form id='WordleForm' name='Game' novalidate='novalidate' method="post">
+            {% csrf_token %}
+
+            {% if form.non_field_errors %}
+            <div class="alert alert-danger" role="alert">
+                {{ form.non_field_errors }}
+            </div>
+            {% endif %}
+
+            {% if details %}
+                <h3>Guess words:</h3>
+                {% for i in details %}
+                    {% for w, c in i.items %}
+                        {% if c == "correct" %}
+                            <span style="color:green">{{ w }}</span>
+                        {% elif c == "half" %}
+                            <span style="color:yellow">{{ w }}</span>
+                        {% else %}
+                            <span style="color:red">{{ w }}</span>
+                        {% endif %}
+                    {% endfor %}
+                    <span>, </span>
+                {% endfor %}
+            {% endif %}
+
+            <br><br>
+            <p>Word Count: {{ count }} (out of a total permitted <b>6</b>)</p>
+            <br><br>
+            <h3>New guess:</h3>
+
+            {% for field in form %}
+            <div class='control-group'>
+                <div class='form-group floating-label-form-group controls mb-0 pb-2'>
+                    {{ field.label_tag }}
+                    {{ field }}
+
+                    {% for error in field.errors %}
+                    <p class='help-block text-danger'>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+
+            {% if bad %}
+                <div class="alert alert-warning" role="alert">
+                    The word you have entered does not exist. Please try another word.
+                </div>
+            {% endif %}
+   
+            <br><br><br>
+            <center>
+                <div id="button" class="btn-get-started scrollto">
+                    <input class="btn btn-primary" type="submit" value="Submit">
+                </div>
+            </center>
+
+
+                <br><br>
+            </div>
+
+            
+
+            <!--
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+
+            {% for error in field.errors %}
+                <p class = 'help-block text-danger'>{{ error }}</p>
+            {% endfor %}
+        -->
+        </form>
+        <hr style="color: white;">
+    </div>
+</div>
+
+
+
+{% endblock %}
