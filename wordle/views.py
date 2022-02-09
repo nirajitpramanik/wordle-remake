@@ -20,16 +20,20 @@ def get_name(request):
 
             l = check_word(guess)
 
+
             with open("wordle/words.json", "r") as fp:
                 lp = json.load(fp)
 
-            if lp["count"] == 6:
+            if l == "exists":
+                return render(request, 'game.html', {'form': form, 'details' : lp["words"], 'count' : lp["count"], "exists" : True})
+
+            elif lp["count"] == 6:
                 if lp["success"]:
                     return render(request, 'gameover.html', {'details' : lp["words"], 'count' : lp["count"], 'success' : True})
                 else:
                     return render(request, 'gameover.html', {'details' : lp["words"], 'real' : lp["real"]})
 
-            if lp["words"] != []:
+            elif lp["words"] != []:
                 form = wordle()
                 if l == "success":
                     return render(request, 'gameover.html', {'details' : lp["words"], 'count' : lp["count"], 'success' : True})
