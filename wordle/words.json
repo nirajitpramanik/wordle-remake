@@ -1,14 +1,6 @@
 {
-  "words": [
-    {
-      "m": "null",
-      "a": "null",
-      "y": "null",
-      "o": "null",
-      "r": "half"
-    }
-  ],
-  "real": "freer",
-  "count": 1,
+  "words": [],
+  "real": "",
+  "count": 0,
   "success": false
 }
