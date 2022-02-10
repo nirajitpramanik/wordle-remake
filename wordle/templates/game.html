@@ -85,6 +85,23 @@
                 <br><br>
             </div>
 
+            <div class = "container">
+                <center>
+                    {% for l, c in letters %}
+                        <span> </span>
+                        {% if c == "correct" %}
+                            <span style="color:green">{{ l }}</span>
+                        {% elif c == "half" %}
+                            <span style="color:yellow">{{ l }}</span>
+                        {% elif c == "wrong" %}
+                            <span style="color:red">{{ l }}</span>
+                        {% else %}
+                            <span style="color:gray">{{ l }}</span>
+                        {% endif %}
+                    {% endfor %}
+                </center>
+            </div>
+
             
 
             <!--

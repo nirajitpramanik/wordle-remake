@@ -2,8 +2,8 @@ import json
 import random
 
 def check_word(word):
-    #clear previous data
-    try:
+    #clear previous data and reset data
+    try:     
         with open("wordle/words.json", "r") as fp:
             l = json.load(fp)
 
@@ -16,6 +16,17 @@ def check_word(word):
             l["real"] = random.choice(word_list)
             l["count"] = 0
             l["success"] = False
+
+            with open("wordle/letters.json", "r") as fp:
+                letters = json.load(fp)
+
+            d = {}
+
+            for i in letters:
+                d[i] = "null"
+
+            with open("wordle/letters.json", "w") as f:
+                json.dump(d, f, indent = 2)
 
         with open("wordle/words.json", "w") as f:
             json.dump(l, f, indent = 2)
@@ -47,6 +58,9 @@ def check_word(word):
     with open("wordle/words.json", "r") as fp:
         l = json.load(fp)
 
+    with open("wordle/letters.json", "r") as fp:
+        letters = json.load(fp)
+
     guessed_words = []
 
     for i in l["words"]:
@@ -55,14 +69,13 @@ def check_word(word):
             s += letter
         guessed_words.append(s)
 
-    print(guessed_words)
-
     real = l["real"]
     if word.lower() == real:
         #When the word has been guessed
         d = {}
         for letter in word.lower():
             d[letter] = "correct"
+            letters[letter] = "correct"
         
         l["words"].append(d)
         l["count"] += 1
@@ -84,14 +97,33 @@ def check_word(word):
         for letter in word.lower():
             if (letter in real_list) and  (word.lower().index(letter) == real_list.index(letter)):
                 d[letter] = "correct"
+                letters[letter] = "correct"
             elif (letter in real_list):
                 d[letter] = "half"
+                letters[letter] = "half"
             else:
                 d[letter] = "null"
+                letters[letter] = "wrong"
         l["words"].append(d)
         l["count"] += 1
 
         with open("wordle/words.json", "w") as f:
             json.dump(l, f, indent = 2)
 
+        with open("wordle/letters.json", "w") as f:
+            json.dump(letters, f, indent = 2)
+
         return "done"
+
+
+def clean_letters():
+    with open("wordle/letters.json", "r") as fp:
+        letters = json.load(fp)
+
+    d = {}
+
+    for i in letters:
+        d[i] = "null"
+
+    with open("wordle/letters.json", "w") as f:
+        json.dump(d, f, indent = 2)
